@@ -29,6 +29,7 @@ class DatabaseController
             $this->message = "Error executing SQL file: " . $e->getMessage();
         }
     }
+
     public function getMessage(): string
     {
         return $this->message;

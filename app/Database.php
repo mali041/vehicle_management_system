@@ -1,20 +1,21 @@
 <?php
-/*
-$host = 'localhost';
-$username = 'root';
-$password = '';
-// $dbname = vehicle_management_system
 
-$conn = new mysqli($host, $username, $password);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+require_once __DIR__ . '/../includes/autoload.php';
+
+$config = require __DIR__ . '/../config/database.php';
+
+try {
+    $dbConnection = new DatabaseConnection($config);
+    $model = new DatabaseModel($dbConnection, $config);
+    $controller = new DatabaseController($model);
+    $view = new DatabaseView();
+
+    $controller->createDatabase();
+    $view->render($controller->getMessage());
+
+    $sqlFilePath = __DIR__ . '/../database.sql';
+    $controller->executeSqlFile($sqlFilePath);
+    $view->render($controller->getMessage());
+} catch (Exception $e) {
+    echo 'Error: ' . $e->getMessage();
 }
-// Create the database if it doesn't exist
-$sql = "CREATE DATABASE IF NOT EXISTS vehicle_management_system";
-if ($conn->query($sql) === TRUE) {
-    echo "Database created successfully";
-} else {
-    echo "Error";
-}
-$conn->close();
-*/
